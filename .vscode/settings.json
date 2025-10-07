@@ -1,0 +1,23 @@
+{
+  "cSpell.words": [
+    "autoincrement",
+    "dbgate",
+    "fuga",
+    "Gomi",
+    "INITDB",
+    "pgdata",
+    "PGOPTIONS",
+    "Prefecturals",
+    "sslmode"
+  ],
+  "[sql]": {
+    "editor.defaultFormatter": "ReneSaarsoo.sql-formatter-vsc"
+  },
+  "SQL-Formatter-VSCode.keywordCase": "upper",
+  "SQL-Formatter-VSCode.denseOperators": false,
+  "SQL-Formatter-VSCode.linesBetweenQueries": 1,
+  "SQL-Formatter-VSCode.expressionWidth": 80,
+  "SQL-Formatter-VSCode.functionCase": "upper",
+  "SQL-Formatter-VSCode.logicalOperatorNewline": "after",
+  "SQL-Formatter-VSCode.dialect": "postgresql"
+}
