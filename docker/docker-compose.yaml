@@ -4,9 +4,9 @@ services:
     container_name: pg17
     restart: no # 明示停止しない限り自動再起動にしたければ unless-stopped
     environment:
-      POSTGRES_USER: student
-      POSTGRES_PASSWORD: secret123
-      POSTGRES_DB: playground
+      POSTGRES_USER: "student"
+      POSTGRES_PASSWORD: "secret123"
+      POSTGRES_DB: "playground"
       TZ: Asia/Tokyo
       LANG: ja_JP.UTF-8
       LANGUAGE: ja_JP:ja
