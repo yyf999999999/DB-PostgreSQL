@@ -1,3 +1,5 @@
+// from-teacher/03/init-s_users.sql が実行されていることを前提としています
+
 import "dotenv/config";
 import { Client } from "pg";
 

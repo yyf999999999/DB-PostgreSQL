@@ -1,3 +1,5 @@
+// from-teacher/03/init-s_users.sql が実行されていることを前提としています
+
 import { db } from "@/libs/drizzle";
 import { pgTable, serial, text, integer } from "drizzle-orm/pg-core";
 

@@ -1,4 +1,15 @@
 
+2025年度「データベース工学」の RDBMS (PostgreSQL) に関する教材です。
+
+## 動作環境
+
+この教材は、次の環境で動作確認を行なっています。
+
+- OS: Windows 11 (WSL2)
+- Docker Desktop: 4.48
+- Node.js: 24.8
+- Git: 2.51.0.windows.1
+- Visual Studio Code: 1.105
 
 ## セットアップ手順
 
@@ -11,7 +22,7 @@ git clone https://github.com/TakeshiWada1980/DB-2025-PostgreSQL.git
 cd DB-2025-PostgreSQL
 ```
 
-上記のコマンドを実行すると、カレントフォルダ内に `DB-2025-PostgreSQL` というフォルダが作成され、そこにプロジェクトが展開されます。
+上記のコマンドを実行すると、カレントフォルダのなかに `DB-2025-PostgreSQL` というフォルダが作成され、そこにプロジェクトが展開されます。
 
 クローン先のフォルダ名を変更したいときは (例えば `hoge` というフォルダを新規作成して、そこに展開にしたいときは)、次のようにしてください。
 
@@ -36,7 +47,7 @@ npm i
 DATABASE_URL="postgresql://student:secret123@localhost:5432/playground?schema=public"
 ```
 
-上記は `docker/docker-compose.yaml` のデフォルト設定に対応しています。もし、`docker/docker-compose.yaml` を変更しているときは、接続文字列の各パラメータを変更してください。
+上記の接続文字列は `docker/docker-compose.yaml` のデフォルト設定に対応しています。もし、`docker/docker-compose.yaml` を変更しているときは、次の各パラメータを変更してください。
 
 - `student` : 学習用 PostgreSQL のユーザ名
 - `secret123` : 学習用 PostgreSQL のパスワード
@@ -61,7 +72,7 @@ git remote add origin https://github.com/xxxx/DB-PostgreSQL.git
 git push -u origin main
 ```
 
-ウェブブラウザから、https://github.com/xxxx/DB-PostgreSQL.git にアクセスして、問題なくプッシュできていることを確認してください。
+ウェブブラウザから、https://github.com/xxxx/DB-PostgreSQL.git にアクセスして、プッシュに成功していることを確認してください。
 
 #### 教材の更新を取得するとき
 
@@ -73,7 +84,11 @@ git switch main
 git merge upstream/main
 ```
 
-- `git switch main` は `git checkout main` と同じです。
+エディタが起動するので、内容を確認して「続行」を押下してください。
+
+![img](./docs/figs/readme/git-01.png)
+
+マージ処理後、`MERGE_MSG` のタブは閉じて問題ありません。
 
 #### 自分の GitHub に演習課題などを保存するとき
 
@@ -85,17 +100,15 @@ git commit -m "任意のコミットメッセージ"
 git push
 ```
 
-## 利用方法
+## 教材の使用方法
 
-Windows 環境を想定した説明です。
+### 準備: Docker Desktop の起動確認
 
-### Docker Desktop の起動確認
+タスクトレイのアイコンから Docker Desktop が起動していることを確認してください。
 
-タスクトレイから Docker Desktop が起動していることを確認してください。
+### 準備: PostgreSQL と DbGate の起動
 
-### PostgreSQL と DbGate の起動
-
-VSCode でプロジェクトフォルダを開き、`[Ctrl]+[J]` を押下してターミナル (PowerShell) を起動してください。つづいて、次のコマンドを実行して PostgreSQL と DbGate のコンテナを起動してください。
+VSCode でプロジェクトフォルダを開き、`[Ctrl]+[J]` を押下してターミナル (PowerShell) を起動してください。つづいて、次のコマンドを実行して PostgreSQL と DbGate の Dockerコンテナ を起動してください。
 
 ```bash
 npm run db:up
@@ -109,7 +122,7 @@ docker compose -f docker/docker-compose.yaml -p pg17dev up -d --wait
 
 ### SQLファイルの実行
 
-基本的に `sql` フォルダのなかに適当なサブフォルダを作成し、拡張子を `.sql` としたファイルに SQL を記述してください。
+SQLファイルは、拡張子を `.sql` として、基本的に `sql` フォルダのなかに配置してください。必要に応じて`sql` フォルダのなかにサブフォルダを作成してください。
 
 例えば、`sql/03/create-s_users.sql` というファイルを作成したときは、次のコマンドで SQLファイル が実行できます。
 
@@ -143,7 +156,7 @@ npm run dev src/samples/helloWorld.ts
 
 ### DbGate の利用
 
-ウェブブラウザで `http://localhost:8080/` にアクセスすることで、DbGateを利用できます。DbGateは、データベースの内容を視覚的に確認したり、SQLを実行したりできるGUIツールです。
+ウェブブラウザで `http://localhost:8080/` にアクセスすることで DbGate を利用できます。DbGateは、データベースの内容を視覚的に確認したり、SQL を実行したりできるウェブベースのGUIツールです。
 
 ### PostgreSQL と DbGate の停止
 
@@ -153,10 +166,12 @@ npm run dev src/samples/helloWorld.ts
 npm run db:down
 ```
 
-これは、データが ボリューム という仕組みで永続化されているためです。次回 `npm run db:up` でコンテナを起動すると、前回のデータがそのまま利用できます。もし、データベースを初期状態に戻したいとき (ボリュームを含めてすべて削除したいとき) は、次のコマンドを実行してください。
+コンテナを停止しても、データベース内のデータは Docker のボリュームに保存されたまま残ります。そのため、次回 `npm run db:up` でコンテナを再起動すれば、前回のデータをそのまま利用できます。
+
+データベースを初期状態に戻したい場合 (ボリュームを含めてすべて削除したい場合) は、次のコマンドを実行してください。
 
 ```bash
-npm db:reset
+npm run db:reset
 ```
 
-**補足**: `npm db:reset` を実行すると、これまでに作成したテーブルやデータがすべて消去されます。演習をやり直したいときや、データベースの状態をクリーンにしたいときに使用してください。
+**補足**: `npm run db:reset` を実行すると、これまでに作成したテーブルやデータがすべて消去されます。演習をやり直したいときや、データベースの状態をクリーンにしたいときに使用してください。
