@@ -1,5 +1,5 @@
 {
-  "name": "db-2025-postgresql",
+  "name": "db-postgresql",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

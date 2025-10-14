@@ -4,12 +4,14 @@
     "dbgate",
     "fuga",
     "Gomi",
+    "hameln",
     "INITDB",
     "pgdata",
     "PGOPTIONS",
     "Prefecturals",
     "RDBMS",
-    "sslmode"
+    "sslmode",
+    "Yamato"
   ],
   "[sql]": {
     "editor.defaultFormatter": "ReneSaarsoo.sql-formatter-vsc"
