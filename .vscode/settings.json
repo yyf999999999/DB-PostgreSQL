@@ -13,7 +13,7 @@
     "Prefecturals",
     "RDBMS",
     "sslmode",
-    "Yamato"
+    "Yamato",
   ],
   "[sql]": {
     "editor.defaultFormatter": "ReneSaarsoo.sql-formatter-vsc"
@@ -24,5 +24,6 @@
   "SQL-Formatter-VSCode.expressionWidth": 80,
   "SQL-Formatter-VSCode.functionCase": "upper",
   "SQL-Formatter-VSCode.logicalOperatorNewline": "after",
-  "SQL-Formatter-VSCode.dialect": "postgresql"
+  "SQL-Formatter-VSCode.dialect": "postgresql",
+  "editor.formatOnSave": true
 }
