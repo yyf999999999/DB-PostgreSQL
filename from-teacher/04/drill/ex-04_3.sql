@@ -1,0 +1,10 @@
+SELECT
+  id,
+  name,
+  created_on
+FROM
+  s_characters
+OFFSET
+  10
+LIMIT
+  5;
