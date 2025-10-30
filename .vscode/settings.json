@@ -4,6 +4,7 @@
     "backline",
     "dbgate",
     "debuff",
+    "Elen",
     "fuga",
     "Gomi",
     "hameln",
@@ -13,7 +14,8 @@
     "Prefecturals",
     "RDBMS",
     "sslmode",
-    "Yamato",
+    "TRUNC",
+    "Yamato"
   ],
   "[sql]": {
     "editor.defaultFormatter": "ReneSaarsoo.sql-formatter-vsc",
