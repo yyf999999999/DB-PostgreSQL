@@ -52,17 +52,6 @@ VALUES
   ('Charlie', 33, 6, 1);
 
 -- レコードの確認
-SELECT
-  *
-FROM
-  p_jobs;
-
-SELECT
-  *
-FROM
-  p_users;
-
-SELECT
-  *
-FROM
-  p_characters;
+SELECT * FROM p_jobs;
+SELECT * FROM p_users;
+SELECT * FROM p_characters;
