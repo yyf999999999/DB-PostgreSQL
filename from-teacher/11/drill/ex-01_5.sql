@@ -1,6 +1,6 @@
 SELECT
-  i1.name || ' (' || i1.price || ')' AS "item_1",
-  i2.name || ' (' || i2.price || ')' AS "item_2",
+  i1.name || ' (' || i1.price || ')' AS "item_1 (price)",
+  i2.name || ' (' || i2.price || ')' AS "item_2 (price)",
   ROUND((i1.price + i2.price) * 0.7) AS "discounted_price"
 FROM
   x_items AS i1

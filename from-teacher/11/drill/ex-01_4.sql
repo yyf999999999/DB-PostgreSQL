@@ -19,5 +19,4 @@ WHERE
       job_id = c.job_id
   )
 ORDER BY
-  j.job_id,
-  c.character_id;
+  j.job_id;
