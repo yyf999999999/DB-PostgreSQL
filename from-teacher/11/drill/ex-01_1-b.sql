@@ -1,0 +1,16 @@
+-- テーブル名のエイリアスを使用したバージョン
+SELECT
+  character_id,
+  name,
+  (
+    SELECT
+      name
+    FROM
+      n_jobs AS n -- テーブルのエイリアスを設定
+    WHERE
+      n.job_id = c.job_id -- エイリアスを利用
+  ) AS "job"
+FROM
+  n_characters AS c -- テーブルのエイリアスを設定
+ORDER BY
+  character_id;
