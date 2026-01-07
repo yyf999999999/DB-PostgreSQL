@@ -149,10 +149,10 @@ VALUES
   (19, 9, 1),
   (19, 10, 2);
 
-INSERT INTO
-  x_character_items (character_id, item_id, qty)
-VALUES
-  (9, 8, 1);
+-- INSERT INTO
+--   x_character_items (character_id, item_id, qty)
+-- VALUES
+--   (9, 8, 1);  -- Walter , Paralyze Cure, 1個
   
 SELECT
   *
