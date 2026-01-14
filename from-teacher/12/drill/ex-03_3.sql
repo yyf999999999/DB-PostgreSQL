@@ -1,46 +1,30 @@
+TRUNCATE TABLE x_gold_transfers RESTART IDENTITY;
+
 START TRANSACTION;
 
--- 確認: 現在価格
+-- サブクエリを用いたレコードの挿入
+INSERT INTO
+  x_gold_transfers (from_character_id, to_character_id, amount, transferred_at)
 SELECT
-  i.item_id,
-  MAX(i.name) AS "item",
-  MAX(i.price) AS "price",
-  SUM(ci.qty) AS "total"
+  NULL,
+  character_id,
+  500,
+  created_at + INTERVAL '5 minute'
 FROM
-  x_items AS i
-  JOIN x_character_items AS ci ON i.item_id = ci.item_id
-  JOIN x_characters AS c ON ci.character_id = c.character_id
-WHERE
-  c.deleted_at IS NULL
-GROUP BY
-  i.item_id
-HAVING
-  SUM(ci.qty) >= 6
-ORDER BY
-  i.item_id;
+  x_characters;
 
--- 更新処理 (様々な別解が考えられます)
-UPDATE x_items
-SET
-  price = CEILING(price * 1.2 / 10) * 10
-WHERE
-  item_id IN (
-    SELECT
-      i.item_id
-    FROM
-      x_items AS i
-      JOIN x_character_items AS ci ON i.item_id = ci.item_id
-      JOIN x_characters AS c ON ci.character_id = c.character_id
-    WHERE
-      c.deleted_at IS NULL
-    GROUP BY
-      i.item_id
-    HAVING
-      SUM(ci.qty) >= 6
-  )
-RETURNING
-  item_id,
-  name,
-  price AS "updated_price";
+-- 確認
+SELECT
+  LEFT(gt.transfer_id::TEXT, 8) AS "id",
+  COALESCE(fc.name, '_SYS_') AS "from",
+  COALESCE(tc.name, '_SYS_') AS "to",
+  TO_CHAR(amount, '999,999') AS "amount",
+  gt.transferred_at
+FROM
+  x_gold_transfers AS gt
+  LEFT JOIN x_characters AS fc ON gt.from_character_id = fc.character_id
+  LEFT JOIN x_characters AS tc ON gt.to_character_id = tc.character_id
+ORDER BY
+  gt.to_character_id;
 
 ROLLBACK;

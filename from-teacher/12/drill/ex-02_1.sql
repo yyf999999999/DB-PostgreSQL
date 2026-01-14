@@ -1,19 +1,16 @@
+-- レコードの全削除（念のため）
 TRUNCATE TABLE x_gold_transfers RESTART IDENTITY;
 
+-- トランザクションの開始
 START TRANSACTION;
 
--- サブクエリを用いたレコードの挿入
+-- リテラル挿入（VALUE句を用いた挿入）
 INSERT INTO
   x_gold_transfers (from_character_id, to_character_id, amount, transferred_at)
-SELECT
-  NULL,
-  character_id,
-  (FLOOR(RANDOM() * 20) + 25) * 1000,
-  '2026-01-01 04:00'
-FROM
-  x_characters
-WHERE
-  deleted_at IS NULL;
+VALUES
+  (6, 8, 1600, '2025-12-28 10:22'),
+  (18, 12, 28000, '2025-12-30 01:43'),
+  (NULL, 14, 10000, '2026-01-01 00:01');
 
 -- 確認
 SELECT
@@ -27,4 +24,5 @@ FROM
   LEFT JOIN x_characters AS fc ON gt.from_character_id = fc.character_id
   LEFT JOIN x_characters AS tc ON gt.to_character_id = tc.character_id;
 
+-- ロールバックによる処理の取り消し
 ROLLBACK;
