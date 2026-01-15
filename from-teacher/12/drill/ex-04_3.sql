@@ -1,6 +1,6 @@
 START TRANSACTION;
 
--- 確認: 現在価格
+-- 確認: 流通数が6個以上のアイテムの現在価格
 SELECT
   i.item_id,
   MAX(i.name) AS "item",
@@ -19,29 +19,28 @@ HAVING
 ORDER BY
   i.item_id;
 
--- 更新処理
-UPDATE x_items AS i
+-- 更新処理 (様々な別解が考えられます)
+UPDATE x_items
 SET
-  price = CEILING(i.price * 1.2 / 10) * 10
-FROM
-  (
+  price = CEILING(price * 1.2 / 10) * 10
+WHERE
+  item_id IN (
     SELECT
-      ci.item_id
+      i.item_id
     FROM
-      x_character_items AS ci
-      JOIN x_characters AS c ON c.character_id = ci.character_id
+      x_items AS i
+      JOIN x_character_items AS ci ON i.item_id = ci.item_id
+      JOIN x_characters AS c ON ci.character_id = c.character_id
     WHERE
       c.deleted_at IS NULL
     GROUP BY
-      ci.item_id
+      i.item_id
     HAVING
       SUM(ci.qty) >= 6
-  ) AS s
-WHERE
-  i.item_id = s.item_id
+  )
 RETURNING
-  i.item_id,
-  i.name,
-  i.price AS "updated_price";
+  item_id,
+  name,
+  price AS "updated_price";
 
 ROLLBACK;

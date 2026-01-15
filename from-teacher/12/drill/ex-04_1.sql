@@ -15,19 +15,25 @@ WHERE
 ORDER BY
   c.character_id;
 
--- 更新処理
-UPDATE x_characters AS c
+-- 更新処理 (様々な別解が考えられます)
+UPDATE x_characters
 SET
-  level = c.level + 1
-FROM
-  x_jobs AS j
+  level = level + 1
 WHERE
-  c.job_id = j.job_id AND
-  c.deleted_at IS NULL AND
-  j.name NOT IN ('Priest', 'Wizard')
+  deleted_at IS NULL AND
+  character_id IN (
+    SELECT
+      c.character_id
+    FROM
+      x_characters AS c
+      JOIN x_jobs AS j ON c.job_id = j.job_id
+    WHERE
+      c.deleted_at IS NULL AND
+      j.name NOT IN ('Priest', 'Wizard')
+  )
 RETURNING
-  c.character_id,
-  c.name,
-  c.level AS "updated_level";
+  character_id,
+  name,
+  level AS "updated_level";
 
 ROLLBACK;

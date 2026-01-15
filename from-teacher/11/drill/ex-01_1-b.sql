@@ -8,7 +8,7 @@ SELECT
     FROM
       n_jobs AS n -- テーブルのエイリアスを設定
     WHERE
-      n.job_id = c.job_id -- エイリアスを利用
+      n.job_id = c.job_id -- エイリアス (nとc) を利用した参照
   ) AS "job"
 FROM
   n_characters AS c -- テーブルのエイリアスを設定

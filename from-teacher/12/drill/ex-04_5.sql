@@ -7,9 +7,10 @@ SELECT
   COUNT(c.character_id) AS "count"
 FROM
   x_jobs AS j
-  LEFT JOIN x_characters AS c ON j.job_id = c.job_id
-WHERE
-  c.deleted_at IS NULL
+  LEFT JOIN x_characters AS c ON (
+    c.job_id = j.job_id AND
+    c.deleted_at IS NULL
+  )
 GROUP BY
   j.job_id
 ORDER BY
@@ -39,9 +40,10 @@ SET
       COUNT(c1.character_id)
     FROM
       x_jobs AS j
-      LEFT JOIN x_characters AS c1 ON j.job_id = c1.job_id
-    WHERE
-      c1.deleted_at IS NULL
+      LEFT JOIN x_characters AS c1 ON (
+        j.job_id = c1.job_id AND
+        c1.deleted_at IS NULL
+      )
     GROUP BY
       j.job_id
     HAVING

@@ -1,39 +1,30 @@
+TRUNCATE TABLE x_gold_transfers RESTART IDENTITY;
+
 START TRANSACTION;
 
--- 確認: 現在レベル
+-- サブクエリを用いたレコードの挿入
+INSERT INTO
+  x_gold_transfers (from_character_id, to_character_id, amount, transferred_at)
 SELECT
-  c.character_id,
-  c.name,
-  j.name AS "job",
-  c.level
-FROM
-  x_characters AS c
-  JOIN x_jobs AS j ON c.job_id = j.job_id
-WHERE
-  c.deleted_at IS NULL AND
-  j.name NOT IN ('Priest', 'Wizard')
-ORDER BY
-  c.character_id;
-
--- 更新処理 (様々な別解が考えられます)
-UPDATE x_characters
-SET
-  level = level + 1
-WHERE
-  deleted_at IS NULL AND
-  character_id IN (
-    SELECT
-      c.character_id
-    FROM
-      x_characters AS c
-      JOIN x_jobs AS j ON c.job_id = j.job_id
-    WHERE
-      c.deleted_at IS NULL AND
-      j.name NOT IN ('Priest', 'Wizard')
-  )
-RETURNING
+  NULL,
   character_id,
-  name,
-  level AS "updated_level";
+  (FLOOR(RANDOM() * 20) + 25) * 1000,
+  '2026-01-01 04:00'
+FROM
+  x_characters
+WHERE
+  deleted_at IS NULL;
+
+-- 確認
+SELECT
+  LEFT(gt.transfer_id::TEXT, 8) AS "id",
+  COALESCE(fc.name, '_SYS_') AS "from",
+  COALESCE(tc.name, '_SYS_') AS "to",
+  TO_CHAR(amount, '999,999') AS "amount",
+  gt.transferred_at
+FROM
+  x_gold_transfers AS gt
+  LEFT JOIN x_characters AS fc ON gt.from_character_id = fc.character_id
+  LEFT JOIN x_characters AS tc ON gt.to_character_id = tc.character_id;
 
 ROLLBACK;
