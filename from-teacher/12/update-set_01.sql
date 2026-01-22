@@ -16,6 +16,8 @@ SET
 WHERE
   job_id = 4
 RETURNING
-  *;
+  job_id,
+  attack_gain AS "updated_attack_gain",
+  defense_gain AS "updated_defense_gain";
 
 ROLLBACK;
